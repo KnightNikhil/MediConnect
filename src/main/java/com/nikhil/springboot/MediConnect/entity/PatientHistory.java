@@ -24,6 +24,8 @@ public class PatientHistory {
 
     @ManyToOne
     @JoinColumn(name = "patient_id", nullable = false)
+    // this name is for PatientHistory table , not referencing patient table, by default it takes id only
+    // referencedColumnName is used for any other unique  field of the other entity eg referencedColumnName = "email"
     private Patient patient;
 
     @ManyToOne

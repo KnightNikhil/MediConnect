@@ -33,4 +33,5 @@ public class DiagnosisReport {
     @Column(name = "document_url_s3", nullable = false)
     private String documentUrlS3;
 
+    DiagnosisReport(){};
 }
