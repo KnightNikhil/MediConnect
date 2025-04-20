@@ -45,9 +45,15 @@ public class PatientHistory {
     @Column(nullable = false)
     private String clinicalDiagnosis;
 
+    @OneToMany(mappedBy = "patientHistory", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
     private List<DiagnosisReport> diagnosisReports;
 
-    @Embedded
+//    @Embedded
+    @ElementCollection
+    @CollectionTable(
+        name = "medicine_prescriptions",
+        joinColumns = @JoinColumn(name = "patient_history_id")
+    )
     private List<MedicinePrescription> medicinePrescriptionList;
 
 
