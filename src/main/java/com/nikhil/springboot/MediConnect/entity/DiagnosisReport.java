@@ -2,7 +2,9 @@ package com.nikhil.springboot.MediConnect.entity;
 
 
 import jakarta.persistence.*;
+import lombok.AllArgsConstructor;
 import lombok.Getter;
+import lombok.NoArgsConstructor;
 import lombok.Setter;
 
 import java.time.LocalDate;
@@ -10,6 +12,8 @@ import java.time.LocalDate;
 @Entity
 @Getter
 @Setter
+@NoArgsConstructor
+@AllArgsConstructor
 public class DiagnosisReport {
 
     @Id
@@ -33,5 +37,4 @@ public class DiagnosisReport {
     @Column(name = "document_url_s3", nullable = false)
     private String documentUrlS3;
 
-    DiagnosisReport(){};
 }

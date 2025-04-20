@@ -9,7 +9,9 @@ import com.nikhil.springboot.MediConnect.entity.Patient;
 import com.nikhil.springboot.MediConnect.repository.PatientRepository;
 import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
 
+@Service
 public class PatientServiceImpl implements PatientService {
 
     @Autowired

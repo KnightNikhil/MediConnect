@@ -1,7 +1,9 @@
 package com.nikhil.springboot.MediConnect.entity;
 
 import jakarta.persistence.*;
+import lombok.AllArgsConstructor;
 import lombok.Getter;
+import lombok.NoArgsConstructor;
 import lombok.Setter;
 
 import java.time.LocalDateTime;
@@ -16,6 +18,8 @@ import java.util.List;
                 columnNames = {"patient_id", "doctor_id", "date_time"}
         )
 )
+@NoArgsConstructor
+@AllArgsConstructor
 public class PatientHistory {
 
     @Id
@@ -47,10 +51,11 @@ public class PatientHistory {
     @Column(nullable = false)
     private String clinicalDiagnosis;
 
+    @OneToMany(mappedBy = "patientHistory", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
     private List<DiagnosisReport> diagnosisReports;
 
-    @Embedded
-    private List<MedicinePrescription> medicinePrescriptionList;
+//    @Embedded
+//    private List<MedicinePrescription> medicinePrescriptionList;
 
 
 }

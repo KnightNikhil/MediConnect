@@ -2,7 +2,9 @@ package com.nikhil.springboot.MediConnect.entity;
 
 import com.nikhil.springboot.MediConnect.dto.Enums.Roles;
 import jakarta.persistence.*;
+import lombok.AllArgsConstructor;
 import lombok.Getter;
+import lombok.NoArgsConstructor;
 import lombok.Setter;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
@@ -14,6 +16,8 @@ import java.util.List;
 @Entity
 @Getter
 @Setter
+@NoArgsConstructor
+@AllArgsConstructor
 public class DiagnosisCentre extends User {
 
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -32,11 +36,5 @@ public class DiagnosisCentre extends User {
         return List.of(new SimpleGrantedAuthority("ROLE_"+ Roles.DIAGNOSIS_CENTRE.name()));
     }
 
-    public String getCity() {
-        return city;
-    }
 
-    public void setCity(String city) {
-        this.city = city;
-    }
 }

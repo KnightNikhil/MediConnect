@@ -5,7 +5,9 @@ import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.Id;
 import jakarta.persistence.OneToMany;
+import lombok.AllArgsConstructor;
 import lombok.Getter;
+import lombok.NoArgsConstructor;
 import lombok.Setter;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
@@ -18,6 +20,8 @@ import java.util.List;
 @Entity
 @Getter
 @Setter
+@NoArgsConstructor
+@AllArgsConstructor
 public class Doctor extends User {
 
     @Column(nullable = false)
@@ -33,22 +37,6 @@ public class Doctor extends User {
         return List.of(new SimpleGrantedAuthority("ROLE_"+ Roles.DOCTOR.name()));
     }
 
-    public String getSpecialization() {
-        return specialization;
-    }
 
-    public void setSpecialization(String specialization) {
-        this.specialization = specialization;
-    }
-
-    public List<String> getDegrees() {
-        return degrees;
-    }
-
-    public void setDegrees(List<String> degrees) {
-        this.degrees = degrees;
-    }
-
-    Doctor(){}
 
 }
