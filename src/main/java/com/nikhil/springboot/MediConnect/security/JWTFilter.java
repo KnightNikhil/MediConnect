@@ -19,7 +19,6 @@ import org.springframework.web.filter.OncePerRequestFilter;
 
 import java.io.IOException;
 
-import static com.nikhil.springboot.MediConnect.dto.Enums.Roles.*;
 
 @Configuration
 @Slf4j

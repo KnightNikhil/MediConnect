@@ -1,5 +1,6 @@
 package com.nikhil.springboot.MediConnect.controllers;
 
+import com.nikhil.springboot.MediConnect.dto.BookingInventoryRequestDto;
 import com.nikhil.springboot.MediConnect.dto.PatientConsultationRecordDto;
 import com.nikhil.springboot.MediConnect.services.DoctorService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -19,6 +20,11 @@ public class DoctorsController {
     @PostMapping("/addPatientConsultationRecord")
     public ResponseEntity<PatientConsultationRecordDto> addPatientConsultationRecord(@RequestBody PatientConsultationRecordDto patientConsultationRecordDto){
         return ResponseEntity.ok(doctorService.addPatientConsultationRecord(patientConsultationRecordDto));
+    }
+
+    @PostMapping("/createBookingInventory")
+    public void createBookingInventory(@RequestBody BookingInventoryRequestDto bookingInventoryRequest){
+        doctorService.createBookingInventory(bookingInventoryRequest);
     }
 
 }

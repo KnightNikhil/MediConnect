@@ -1,9 +1,6 @@
 package com.nikhil.springboot.MediConnect.services;
 
-import com.nikhil.springboot.MediConnect.dto.CreateUserRequest;
-import com.nikhil.springboot.MediConnect.dto.DoctorDto;
-import com.nikhil.springboot.MediConnect.dto.PatientConsultationRecordDto;
-import com.nikhil.springboot.MediConnect.dto.UserDto;
+import com.nikhil.springboot.MediConnect.dto.*;
 import com.nikhil.springboot.MediConnect.entity.Doctor;
 
 public interface DoctorService {
@@ -12,4 +9,6 @@ public interface DoctorService {
     DoctorDto addNewDoctor(DoctorDto doctorDto);
 
     PatientConsultationRecordDto addPatientConsultationRecord(PatientConsultationRecordDto patientConsultationRecordDto);
+
+    void createBookingInventory(BookingInventoryRequestDto bookingInventoryRequest);
 }

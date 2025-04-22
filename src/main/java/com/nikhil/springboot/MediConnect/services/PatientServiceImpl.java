@@ -1,11 +1,15 @@
 package com.nikhil.springboot.MediConnect.services;
 
 import com.nikhil.springboot.MediConnect.dto.*;
+import com.nikhil.springboot.MediConnect.dto.Enums.BookingStatus;
+import com.nikhil.springboot.MediConnect.entity.BookingInventory;
 import com.nikhil.springboot.MediConnect.entity.Doctor;
 import com.nikhil.springboot.MediConnect.entity.Patient;
 import com.nikhil.springboot.MediConnect.exception.ResourceNotFoundException;
-import com.nikhil.springboot.MediConnect.repository.PatientConsultationRecordRepository;
+import com.nikhil.springboot.MediConnect.repository.BookingInventoryRepository;
+import com.nikhil.springboot.MediConnect.repository.DoctorRepository;
 import com.nikhil.springboot.MediConnect.repository.PatientRepository;
+import lombok.RequiredArgsConstructor;
 import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.context.SecurityContextHolder;
@@ -15,13 +19,19 @@ import org.springframework.stereotype.Service;
 import java.util.List;
 
 @Service
+@RequiredArgsConstructor
 public class PatientServiceImpl implements PatientService {
 
     @Autowired
     private PatientConsultationRecordService patientConsultationRecordService;
 
     @Autowired
-    PatientRepository patientRepository;
+    private PatientRepository patientRepository;
+
+    @Autowired
+    BookingInventoryRepository bookingInventoryRepository;
+
+    private final DoctorRepository doctorRepository;
 
     @Autowired
     private ModelMapper modelMapper;
@@ -44,5 +54,15 @@ public class PatientServiceImpl implements PatientService {
     @Override
     public List<PatientConsultationRecordDto> getPatientConsultationRecordBy() {
         return patientConsultationRecordService.getPatientConsultationRecordByPatientId(((Patient) SecurityContextHolder.getContext().getAuthentication().getPrincipal()).getId());
+    }
+
+    @Override
+    public AppointmentDetailsDto bookDoctorAppointment(AppointmentDetailsDto appointmentDetailsDto) {
+
+        Patient patient = (Patient) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
+        // TODO:: circular dependency, else use doctorService
+        Doctor doctor = doctorRepository.findById(appointmentDetailsDto.getDoctorId()).orElseThrow(() -> new ResourceNotFoundException("Doctor with id not found "+ appointmentDetailsDto.getDoctorId()));
+        BookingInventory bookingInventory = new BookingInventory( doctor, appointmentDetailsDto.getDate(), appointmentDetailsDto.getTime(), patient, BookingStatus.CONFIRMED);
+        return modelMapper.map(bookingInventoryRepository.save(bookingInventory), AppointmentDetailsDto.class);
     }
 }

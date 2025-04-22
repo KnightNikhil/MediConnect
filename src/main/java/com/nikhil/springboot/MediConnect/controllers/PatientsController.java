@@ -1,5 +1,6 @@
 package com.nikhil.springboot.MediConnect.controllers;
 
+import com.nikhil.springboot.MediConnect.dto.AppointmentDetailsDto;
 import com.nikhil.springboot.MediConnect.dto.PatientConsultationRecordDto;
 import com.nikhil.springboot.MediConnect.dto.UserDto;
 import com.nikhil.springboot.MediConnect.dto.CreateUserRequest;
@@ -23,6 +24,11 @@ public class PatientsController {
     @GetMapping("/getPatientConsultationRecord")
     public ResponseEntity<List<PatientConsultationRecordDto>> getPatientConsultationRecord(){
         return ResponseEntity.ok(patientService.getPatientConsultationRecordBy());
+    }
+
+    @PostMapping("/bookAppointment")
+    public ResponseEntity<AppointmentDetailsDto> bookDoctorAppointment(@RequestBody AppointmentDetailsDto appointmentDetailsDto){
+        return ResponseEntity.ok(patientService.bookDoctorAppointment(appointmentDetailsDto));
     }
 
 }
