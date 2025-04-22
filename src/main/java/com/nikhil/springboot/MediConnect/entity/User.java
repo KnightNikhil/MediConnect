@@ -1,10 +1,8 @@
 package com.nikhil.springboot.MediConnect.entity;
 
+import com.nikhil.springboot.MediConnect.dto.Enums.Gender;
 import com.nikhil.springboot.MediConnect.dto.Enums.Roles;
-import jakarta.persistence.Column;
-import jakarta.persistence.Entity;
-import jakarta.persistence.Id;
-import jakarta.persistence.MappedSuperclass;
+import jakarta.persistence.*;
 import lombok.Builder;
 import lombok.Getter;
 import lombok.Setter;
@@ -14,15 +12,12 @@ import org.springframework.security.core.userdetails.UserDetails;
 import java.time.LocalDate;
 import java.util.Collection;
 import java.util.List;
+import java.util.Set;
 
 @Getter
 @Setter
 @MappedSuperclass
-public class User implements UserDetails {
-
-    @Id
-    @Column(nullable = false)
-    private Long id;
+public abstract class User implements UserDetails {
 
     @Column(nullable = false)
     private String name;
@@ -33,21 +28,10 @@ public class User implements UserDetails {
     @Column(nullable = false)
     private String password;
 
-    @Column(nullable = false)
-    private LocalDate dateOfBirth;
-
-    @Column(nullable = false)
+    @Enumerated(EnumType.STRING)
     private Roles role;
 
-    // this method is used in usernamePasswordAuthenticationToken constructor creation
-    @Override
-    public Collection<? extends GrantedAuthority> getAuthorities() {
-        return List.of();
-    }
+    public abstract Long getId();
 
-    @Override
-    public String getUsername() {
-        return String.valueOf(id);
-    }
-
+    public abstract void setId(Long id);
 }

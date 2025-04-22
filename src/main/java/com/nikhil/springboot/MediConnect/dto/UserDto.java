@@ -8,10 +8,10 @@ import java.time.LocalDate;
 
 @Data
 public class UserDto {
+
     private String id;
     private String password;
     private String name;
     private String email;
-    private LocalDate dateOfBirth;
     private Roles role;
 }

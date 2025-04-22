@@ -9,6 +9,7 @@ import com.nikhil.springboot.MediConnect.entity.Patient;
 import com.nikhil.springboot.MediConnect.repository.PatientRepository;
 import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 
 @Service
@@ -20,6 +21,9 @@ public class PatientServiceImpl implements PatientService {
     @Autowired
     private ModelMapper modelMapper;
 
+    public String encodePassword(String password){
+        return new BCryptPasswordEncoder().encode(password);
+    }
     @Override
     public Patient getPatientById(Long id) {
         return null;
@@ -28,6 +32,7 @@ public class PatientServiceImpl implements PatientService {
     @Override
     public PatientDto addNewPatient(PatientDto patientDto) {
         Patient patient = modelMapper.map(patientDto, Patient.class);
+        patient.setPassword(encodePassword(patientDto.getPassword()));
         return modelMapper.map(patientRepository.save(patient) , PatientDto.class);
     }
 }

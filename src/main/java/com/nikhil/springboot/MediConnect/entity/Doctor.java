@@ -1,10 +1,8 @@
 package com.nikhil.springboot.MediConnect.entity;
 
+import com.nikhil.springboot.MediConnect.dto.Enums.Gender;
 import com.nikhil.springboot.MediConnect.dto.Enums.Roles;
-import jakarta.persistence.Column;
-import jakarta.persistence.Entity;
-import jakarta.persistence.Id;
-import jakarta.persistence.OneToMany;
+import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -24,6 +22,16 @@ import java.util.List;
 @AllArgsConstructor
 public class Doctor extends User {
 
+    @Id
+    private Long id;
+
+    @Column(nullable = false)
+    private LocalDate dateOfBirth;
+
+    @Enumerated(EnumType.STRING)
+    private Gender gender;
+
+
     @Column(nullable = false)
     private String specialization;
 
@@ -37,6 +45,19 @@ public class Doctor extends User {
         return List.of(new SimpleGrantedAuthority("ROLE_"+ Roles.DOCTOR.name()));
     }
 
+    @Override
+    public String getUsername() {
+        return String.valueOf(id);
+    }
 
+    @Override
+    public Long getId() {
+        return id;
+    }
+
+    @Override
+    public void setId(Long id) {
+        this.id =id;
+    }
 
 }

@@ -1,5 +1,6 @@
 package com.nikhil.springboot.MediConnect.services;
 
+import com.fasterxml.jackson.databind.ObjectMapper;
 import com.nikhil.springboot.MediConnect.dto.*;
 import com.nikhil.springboot.MediConnect.dto.Enums.Roles;
 import com.nikhil.springboot.MediConnect.entity.DiagnosisCentre;
@@ -37,19 +38,25 @@ public class AuthService {
     @Autowired
     DiagnosisCentreService diagnosisCentreService;
 
+    @Autowired
+    ObjectMapper objectMapper;
+
     public DoctorDto signUpDoctor(DoctorDto doctorDto){
         return doctorService.addNewDoctor(doctorDto);
     }
 
-    public UserDto loginPatient(UserDto userDto){
+    public String login(UserDto userDto){
 
+
+        //this is going to internally call loadByUsername created by us and validate the credentials
         Authentication authentication = authenticationManager.authenticate(new UsernamePasswordAuthenticationToken(
                 userDto.getId(), userDto.getPassword()
         ));
 
-        UserDetails userDetails = (UserDetails) authentication.getPrincipal();
+//        UserDetails userDetails = (UserDetails) authentication.getPrincipal();
 
-        return modelMapper.map(userDetails, UserDto.class);
+        return jwtService.createJwtToken(userDto);
+
     }
 
 
@@ -57,9 +64,9 @@ public class AuthService {
 
         Object user =
         switch (createUserRequest.getRole().toUpperCase()){
-            case "DOCTOR" -> doctorService.addNewDoctor((DoctorDto) createUserRequest.getData().get("details"));
-            case "PATIENT" -> patientService.addNewPatient((PatientDto) createUserRequest.getData().get("details"));
-            case "DIAGNOSIS_CENTRE" -> diagnosisCentreService.addNewDiagnosisCentre((DiagnosisCentreDto) createUserRequest.getData().get("details"));
+            case "DOCTOR" -> doctorService.addNewDoctor(objectMapper.convertValue(createUserRequest.getData(), DoctorDto.class)) ;
+            case "PATIENT" -> patientService.addNewPatient( objectMapper.convertValue(createUserRequest.getData(), PatientDto.class)) ;
+            case "DIAGNOSIS_CENTRE" -> diagnosisCentreService.addNewDiagnosisCentre(objectMapper.convertValue(createUserRequest.getData(), DiagnosisCentreDto.class)) ;
             default -> throw new RuntimeException("No valid role");
         };
         return user;

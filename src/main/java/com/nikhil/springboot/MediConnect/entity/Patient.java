@@ -1,9 +1,8 @@
 package com.nikhil.springboot.MediConnect.entity;
 
+import com.nikhil.springboot.MediConnect.dto.Enums.Gender;
 import com.nikhil.springboot.MediConnect.dto.Enums.Roles;
-import jakarta.persistence.Column;
-import jakarta.persistence.Entity;
-import jakarta.persistence.Id;
+import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -20,12 +19,37 @@ import java.util.List;
 @Getter
 @Setter
 @AllArgsConstructor
+@NoArgsConstructor
 public class Patient extends User {
+
+    @Id
+    private Long id;
+
+    @Column(nullable = false)
+    private LocalDate dateOfBirth;
+
+    @Enumerated(EnumType.STRING)
+    private Gender gender;
 
     @Override
     public Collection<? extends GrantedAuthority> getAuthorities() {
         // return List.of(Roles.PATIENT.name()) -- this dos not works bcoz it is expecting list of granted authorities not string or enum
         return List.of(new SimpleGrantedAuthority("ROLE_"+ Roles.PATIENT.name()));
+    }
+
+    @Override
+    public String getUsername() {
+        return String.valueOf(id);
+    }
+
+    @Override
+    public Long getId() {
+        return id;
+    }
+
+    @Override
+    public void setId(Long id) {
+        this.id =id;
     }
 
 }

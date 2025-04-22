@@ -2,6 +2,7 @@ package com.nikhil.springboot.MediConnect.security;
 
 import com.nikhil.springboot.MediConnect.dto.Enums.Roles;
 import com.nikhil.springboot.MediConnect.dto.UserDto;
+import com.nikhil.springboot.MediConnect.entity.Patient;
 import com.nikhil.springboot.MediConnect.entity.User;
 import io.jsonwebtoken.Claims;
 import io.jsonwebtoken.JwtParser;
@@ -22,21 +23,21 @@ public class JwtService {
     @Value("${jwt.secret.key}")
     private String jwtSecretKey;
 
-    private SecretKey getSecretKey(){
+    private SecretKey getSecretKey() {
         return Keys.hmacShaKeyFor((jwtSecretKey).getBytes(StandardCharsets.UTF_8));
     }
 
-    public String createJwtToken(User user){
+    public String createJwtToken(UserDto userdto) {
 
-        String token = Jwts.builder()
+        return Jwts.builder()
                 .signWith(getSecretKey())
-                .subject(String.valueOf(user.getId()))
-                .claim("role", user.getRole())
+                .subject(String.valueOf(userdto.getId()))
+                .claim("role", userdto.getRole())
                 .issuedAt(new Date(System.currentTimeMillis()))
-                .expiration(new Date(System.currentTimeMillis()+ 1000 * 60 * 60))
+                .expiration(new Date(System.currentTimeMillis() + 1000 * 60 * 60))
                 .compact();
 
-        return token;
+
     }
 
     public User getUserIdAndRoleFromToken(String token) {
@@ -51,12 +52,10 @@ public class JwtService {
                 .getPayload();
 
         // get the id through claim
-        User user = new User();
+        User user = new Patient();
         user.setId(Long.valueOf(claims.getSubject()));
         user.setRole((Roles) claims.get("role"));
         return user;
-
-
     }
 
 

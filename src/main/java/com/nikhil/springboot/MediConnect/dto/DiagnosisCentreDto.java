@@ -10,8 +10,6 @@ import lombok.EqualsAndHashCode;
 @EqualsAndHashCode(callSuper = true)
 @Data
 public class DiagnosisCentreDto extends UserDto{
-
-    private String id;
     private String city;
 
 }

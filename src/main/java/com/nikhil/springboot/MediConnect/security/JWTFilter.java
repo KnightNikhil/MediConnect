@@ -39,10 +39,7 @@ public class JWTFilter extends OncePerRequestFilter {
     DiagnosisCentreService diagnosisCentreService;
 
     @Override
-    @Transactional
     protected void doFilterInternal(HttpServletRequest request, HttpServletResponse response, FilterChain filterChain) throws ServletException, IOException {
-
-
 
         try {
 
