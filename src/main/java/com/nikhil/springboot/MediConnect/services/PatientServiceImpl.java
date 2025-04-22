@@ -1,22 +1,27 @@
 package com.nikhil.springboot.MediConnect.services;
 
-import com.nikhil.springboot.MediConnect.dto.CreateUserRequest;
-import com.nikhil.springboot.MediConnect.dto.DoctorDto;
-import com.nikhil.springboot.MediConnect.dto.PatientDto;
-import com.nikhil.springboot.MediConnect.dto.UserDto;
+import com.nikhil.springboot.MediConnect.dto.*;
 import com.nikhil.springboot.MediConnect.entity.Doctor;
 import com.nikhil.springboot.MediConnect.entity.Patient;
+import com.nikhil.springboot.MediConnect.exception.ResourceNotFoundException;
+import com.nikhil.springboot.MediConnect.repository.PatientConsultationRecordRepository;
 import com.nikhil.springboot.MediConnect.repository.PatientRepository;
 import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
+
+import java.util.List;
 
 @Service
 public class PatientServiceImpl implements PatientService {
 
     @Autowired
-    private PatientRepository patientRepository;
+    private PatientConsultationRecordService patientConsultationRecordService;
+
+    @Autowired
+    PatientRepository patientRepository;
 
     @Autowired
     private ModelMapper modelMapper;
@@ -26,7 +31,7 @@ public class PatientServiceImpl implements PatientService {
     }
     @Override
     public Patient getPatientById(Long id) {
-        return null;
+        return patientRepository.findById(id).orElseThrow(() -> new ResourceNotFoundException("Could not find patient with Id:: " + id));
     }
 
     @Override
@@ -34,5 +39,10 @@ public class PatientServiceImpl implements PatientService {
         Patient patient = modelMapper.map(patientDto, Patient.class);
         patient.setPassword(encodePassword(patientDto.getPassword()));
         return modelMapper.map(patientRepository.save(patient) , PatientDto.class);
+    }
+
+    @Override
+    public List<PatientConsultationRecordDto> getPatientConsultationRecordBy() {
+        return patientConsultationRecordService.getPatientConsultationRecordByPatientId(((Patient) SecurityContextHolder.getContext().getAuthentication().getPrincipal()).getId());
     }
 }

@@ -18,7 +18,6 @@ public class AuthController {
     @Autowired
     AuthService authService;
 
-
     @PostMapping(value = "/signUp")
     public ResponseEntity<Object> createUser(@RequestBody CreateUserRequest createUserRequest){
         return new ResponseEntity<>(authService.signUp(createUserRequest), HttpStatus.CREATED);

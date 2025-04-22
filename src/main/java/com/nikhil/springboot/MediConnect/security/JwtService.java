@@ -54,7 +54,7 @@ public class JwtService {
         // get the id through claim
         User user = new Patient();
         user.setId(Long.valueOf(claims.getSubject()));
-        user.setRole((Roles) claims.get("role"));
+        user.setRole(Roles.valueOf(claims.get("role", String.class)));
         return user;
     }
 

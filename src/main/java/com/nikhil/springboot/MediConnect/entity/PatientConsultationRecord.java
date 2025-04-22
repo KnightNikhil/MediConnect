@@ -14,13 +14,13 @@ import java.util.List;
 @Setter
 @Table(
         uniqueConstraints = @UniqueConstraint(
-                name = "unique_patient doctor_time",
-                columnNames = {"patient_id", "doctor_id", "date_time"}
+                name = "unique_patient_doctor_time",
+                columnNames = {"patient_id", "doctor_id", "consultancy_date_time"}
         )
 )
 @NoArgsConstructor
 @AllArgsConstructor
-public class PatientHistory {
+public class PatientConsultationRecord {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -37,7 +37,7 @@ public class PatientHistory {
     private Doctor doctor;
 
     @Column(nullable = false)
-    private LocalDateTime dateTime;
+    private LocalDateTime consultancyDateTime;
 
     @Column(nullable = false)
     private Integer age;
@@ -51,11 +51,17 @@ public class PatientHistory {
     @Column(nullable = false)
     private String clinicalDiagnosis;
 
-    @OneToMany(mappedBy = "patientHistory", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
+    //TODO ??
+    @OneToMany(mappedBy = "patientConsultationRecord", cascade = CascadeType.ALL, fetch = FetchType.EAGER)
     private List<DiagnosisReport> diagnosisReports;
 
 //    @Embedded
-//    private List<MedicinePrescription> medicinePrescriptionList;
+    @ElementCollection
+    @CollectionTable(
+            name = "medicine_prescriptions",
+            joinColumns = @JoinColumn(name = "patient_consultation_record_id")
+    )
+    private List<MedicinePrescription> medicinePrescriptionList;
 
 
 }

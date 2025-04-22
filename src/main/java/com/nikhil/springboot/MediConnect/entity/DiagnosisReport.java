@@ -8,6 +8,7 @@ import lombok.NoArgsConstructor;
 import lombok.Setter;
 
 import java.time.LocalDate;
+import java.time.LocalDateTime;
 
 @Entity
 @Getter
@@ -21,15 +22,15 @@ public class DiagnosisReport {
     private Integer id;
 
     @ManyToOne
-    @JoinColumn(name = "patient_history_id", nullable = false)
-    private PatientHistory patientHistory;
+    @JoinColumn(name = "patient_consultation_record_id", nullable = false)
+    private PatientConsultationRecord patientConsultationRecord;
 
     @ManyToOne
     @JoinColumn(name = "diagnosis_centre_id", nullable = false)
     private DiagnosisCentre diagnosisCentre;
 
     @Column(nullable = false)
-    private LocalDate date;
+    private LocalDateTime dateTime;
 
     @Column(nullable = false)
     private String documentName;
