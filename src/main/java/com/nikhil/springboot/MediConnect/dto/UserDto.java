@@ -1,10 +1,7 @@
 package com.nikhil.springboot.MediConnect.dto;
 
-import com.nikhil.springboot.MediConnect.dto.Enums.Roles;
-import jakarta.persistence.Column;
+import com.nikhil.springboot.MediConnect.entity.Enums.Roles;
 import lombok.Data;
-
-import java.time.LocalDate;
 
 @Data
 public class UserDto {

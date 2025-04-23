@@ -1,6 +1,6 @@
 package com.nikhil.springboot.MediConnect.dto;
 
-import com.nikhil.springboot.MediConnect.dto.Enums.Gender;
+import com.nikhil.springboot.MediConnect.entity.Enums.Gender;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
 

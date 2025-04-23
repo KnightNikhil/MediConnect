@@ -1,6 +1,6 @@
 package com.nikhil.springboot.MediConnect.entity;
 
-import com.nikhil.springboot.MediConnect.dto.Enums.Roles;
+import com.nikhil.springboot.MediConnect.entity.Enums.Roles;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Getter;

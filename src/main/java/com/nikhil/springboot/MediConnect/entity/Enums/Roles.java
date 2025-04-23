@@ -1,4 +1,4 @@
-package com.nikhil.springboot.MediConnect.dto.Enums;
+package com.nikhil.springboot.MediConnect.entity.Enums;
 
 public enum Roles {
 

@@ -13,4 +13,8 @@ public interface PatientService {
     List<PatientConsultationRecordDto> getPatientConsultationRecordBy();
 
     AppointmentDetailsDto bookDoctorAppointment(AppointmentDetailsDto appointmentDetailsDto);
+
+    List<AppointmentDetailsDto> findAllAppointments();
+
+    AppointmentDetailsDto cancelDoctorAppointment(AppointmentDetailsDto appointmentDetailsDto);
 }

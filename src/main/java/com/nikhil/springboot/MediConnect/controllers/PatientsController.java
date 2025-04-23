@@ -31,4 +31,14 @@ public class PatientsController {
         return ResponseEntity.ok(patientService.bookDoctorAppointment(appointmentDetailsDto));
     }
 
+    @PostMapping("/cancelAppointment")
+    public ResponseEntity<AppointmentDetailsDto> cancelDoctorAppointment(@RequestBody AppointmentDetailsDto appointmentDetailsDto){
+        return ResponseEntity.ok(patientService.cancelDoctorAppointment(appointmentDetailsDto));
+    }
+
+    @GetMapping("/findAllAppointments")
+    public ResponseEntity<List<AppointmentDetailsDto>> findAllAppointments(){
+        return ResponseEntity.ok(patientService.findAllAppointments());
+    }
+
 }

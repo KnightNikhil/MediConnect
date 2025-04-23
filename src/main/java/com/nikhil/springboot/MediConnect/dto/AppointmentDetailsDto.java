@@ -1,10 +1,9 @@
 package com.nikhil.springboot.MediConnect.dto;
 
-import com.nikhil.springboot.MediConnect.dto.Enums.BookingStatus;
+import com.nikhil.springboot.MediConnect.entity.Enums.BookingStatus;
 import lombok.Data;
 
 import java.time.LocalDate;
-import java.time.LocalDateTime;
 import java.time.LocalTime;
 
 @Data

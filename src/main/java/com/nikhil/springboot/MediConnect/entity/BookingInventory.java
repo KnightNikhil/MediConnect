@@ -1,9 +1,8 @@
 package com.nikhil.springboot.MediConnect.entity;
 
-import com.nikhil.springboot.MediConnect.dto.Enums.BookingStatus;
+import com.nikhil.springboot.MediConnect.entity.Enums.BookingStatus;
 import jakarta.persistence.*;
 import lombok.*;
-import org.hibernate.mapping.Join;
 
 import java.time.LocalDate;
 import java.time.LocalTime;
@@ -40,14 +39,6 @@ public class BookingInventory {
         this.doctor = doctor;
         this.date = date;
         this.time = time;
-        this.bookingStatus = bookingStatus;
-    }
-
-    public BookingInventory(Doctor doctor, LocalDate date, LocalTime time, Patient patient, BookingStatus bookingStatus) {
-        this.doctor = doctor;
-        this.date = date;
-        this.time = time;
-        this.patient = patient;
         this.bookingStatus = bookingStatus;
     }
 

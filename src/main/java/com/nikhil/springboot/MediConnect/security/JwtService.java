@@ -1,6 +1,6 @@
 package com.nikhil.springboot.MediConnect.security;
 
-import com.nikhil.springboot.MediConnect.dto.Enums.Roles;
+import com.nikhil.springboot.MediConnect.entity.Enums.Roles;
 import com.nikhil.springboot.MediConnect.dto.UserDto;
 import com.nikhil.springboot.MediConnect.entity.Patient;
 import com.nikhil.springboot.MediConnect.entity.User;

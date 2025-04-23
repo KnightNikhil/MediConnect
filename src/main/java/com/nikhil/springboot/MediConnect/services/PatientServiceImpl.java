@@ -1,7 +1,7 @@
 package com.nikhil.springboot.MediConnect.services;
 
 import com.nikhil.springboot.MediConnect.dto.*;
-import com.nikhil.springboot.MediConnect.dto.Enums.BookingStatus;
+import com.nikhil.springboot.MediConnect.entity.Enums.BookingStatus;
 import com.nikhil.springboot.MediConnect.entity.BookingInventory;
 import com.nikhil.springboot.MediConnect.entity.Doctor;
 import com.nikhil.springboot.MediConnect.entity.Patient;
@@ -16,6 +16,7 @@ import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 
+import java.time.LocalDate;
 import java.util.List;
 
 @Service
@@ -29,7 +30,7 @@ public class PatientServiceImpl implements PatientService {
     private PatientRepository patientRepository;
 
     @Autowired
-    BookingInventoryRepository bookingInventoryRepository;
+    private BookingInventoryRepository bookingInventoryRepository;
 
     private final DoctorRepository doctorRepository;
 
@@ -62,7 +63,40 @@ public class PatientServiceImpl implements PatientService {
         Patient patient = (Patient) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
         // TODO:: circular dependency, else use doctorService
         Doctor doctor = doctorRepository.findById(appointmentDetailsDto.getDoctorId()).orElseThrow(() -> new ResourceNotFoundException("Doctor with id not found "+ appointmentDetailsDto.getDoctorId()));
-        BookingInventory bookingInventory = new BookingInventory( doctor, appointmentDetailsDto.getDate(), appointmentDetailsDto.getTime(), patient, BookingStatus.CONFIRMED);
+        BookingInventory bookingInventory = bookingInventoryRepository.findByDoctorAndDateAndTime(doctor, appointmentDetailsDto.getDate(), appointmentDetailsDto.getTime());
+        if(!bookingInventory.getBookingStatus().equals(BookingStatus.CONFIRMED)) {
+            bookingInventory.setPatient(patient);
+            bookingInventory.setBookingStatus(BookingStatus.CONFIRMED);
+        }
         return modelMapper.map(bookingInventoryRepository.save(bookingInventory), AppointmentDetailsDto.class);
+    }
+
+    @Override
+    public AppointmentDetailsDto cancelDoctorAppointment(AppointmentDetailsDto appointmentDetailsDto) {
+
+        Patient patient = (Patient) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
+        // TODO:: circular dependency, else use doctorService
+        Doctor doctor = doctorRepository.findById(appointmentDetailsDto.getDoctorId())
+                .orElseThrow(() -> new ResourceNotFoundException("Doctor with id not found "+ appointmentDetailsDto.getDoctorId()));
+        BookingInventory bookingInventory = bookingInventoryRepository.findByDoctorAndDateAndTime(
+                doctor, appointmentDetailsDto.getDate(), appointmentDetailsDto.getTime());
+
+        if (patient.getId().equals(bookingInventory.getPatient().getId()))
+        {
+            bookingInventory.setPatient(null);
+            bookingInventory.setBookingStatus(BookingStatus.CANCELLED);
+        }
+
+        return modelMapper.map(bookingInventoryRepository.save(bookingInventory), AppointmentDetailsDto.class);
+    }
+
+    @Override
+    public List<AppointmentDetailsDto> findAllAppointments() {
+        return
+                bookingInventoryRepository.findAllByPatient((Patient) SecurityContextHolder.getContext().getAuthentication().getPrincipal())
+                        .stream()
+                        .map(inventory -> modelMapper.map(inventory, AppointmentDetailsDto.class))
+                        .toList();
+
     }
 }

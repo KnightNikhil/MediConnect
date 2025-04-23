@@ -1,6 +1,6 @@
 package com.nikhil.springboot.MediConnect.security;
 
-import com.nikhil.springboot.MediConnect.dto.Enums.Roles;
+import com.nikhil.springboot.MediConnect.entity.Enums.Roles;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;

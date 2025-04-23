@@ -2,7 +2,7 @@ package com.nikhil.springboot.MediConnect.services;
 
 import com.nikhil.springboot.MediConnect.dto.BookingInventoryRequestDto;
 import com.nikhil.springboot.MediConnect.dto.DoctorDto;
-import com.nikhil.springboot.MediConnect.dto.Enums.BookingStatus;
+import com.nikhil.springboot.MediConnect.entity.Enums.BookingStatus;
 import com.nikhil.springboot.MediConnect.dto.PatientConsultationRecordDto;
 import com.nikhil.springboot.MediConnect.entity.BookingInventory;
 import com.nikhil.springboot.MediConnect.entity.Doctor;
